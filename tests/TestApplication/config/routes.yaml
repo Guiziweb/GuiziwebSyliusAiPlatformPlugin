@@ -1,0 +1,5 @@
+guiziweb_sylius_ai_platform_admin:
+    resource: "@GuiziwebSyliusAiPlatformPlugin/config/routes/admin.yaml"
+
+guiziweb_sylius_ai_platform_shop:
+    resource: "@GuiziwebSyliusAiPlatformPlugin/config/routes/shop.yaml"
