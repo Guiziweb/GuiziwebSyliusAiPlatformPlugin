@@ -5,12 +5,19 @@
     "keywords": [
         "sylius",
         "sylius-plugin",
-        "test-appication"
+        "ai",
+        "agents",
+        "llm",
+        "symfony-ai"
     ],
     "license": "MIT",
+    "minimum-stability": "beta",
+    "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "sylius/sylius": "^2.0"
+        "sylius/sylius": "^2.1",
+        "symfony/ai-agent": "^1.0@beta",
+        "symfony/ai-platform": "^1.0@beta"
     },
     "require-dev": {
         "behat/behat": "^3.16",
@@ -34,6 +41,8 @@
         "sylius-labs/suite-tags-extension": "~0.2",
         "sylius/sylius-rector": "^2.0",
         "sylius/test-application": "^2.0.0@alpha",
+        "symfony/ai-mistral-platform": "^1.0@beta",
+        "symfony/ai-open-ai-platform": "^1.0@beta",
         "symfony/browser-kit": "^6.4 || ^7.4",
         "symfony/debug-bundle": "^6.4 || ^7.4",
         "symfony/dotenv": "^6.4 || ^7.4",
@@ -42,6 +51,10 @@
         "symfony/runtime": "^6.4 || ^7.4",
         "symfony/web-profiler-bundle": "^6.4 || ^7.4",
         "symfony/webpack-encore-bundle": "^2.2"
+    },
+    "suggest": {
+        "symfony/ai-mistral-platform": "To connect a Mistral account",
+        "symfony/ai-open-ai-platform": "To connect an OpenAI account"
     },
     "config": {
         "sort-packages": true,
