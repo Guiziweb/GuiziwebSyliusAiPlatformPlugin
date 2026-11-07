@@ -15,7 +15,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "sylius/sylius": "^2.1",
+        "sylius/sylius": "^2.2",
         "symfony/ai-agent": "^1.0@beta",
         "symfony/ai-platform": "^1.0@beta"
     },
