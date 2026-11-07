@@ -1,10 +1,4 @@
 # Put your Behat suites definitions here
 
 default:
-    suites:
-        greeting_customer:
-            contexts:
-                - guiziweb_sylius_ai_platform.context.ui.shop.welcome
-
-            filters:
-                tags: "@greeting_customer"
+    suites: ~
