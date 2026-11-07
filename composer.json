@@ -17,6 +17,7 @@
         "php": "^8.2",
         "sylius/sylius": "^2.2",
         "symfony/ai-agent": "^1.0@beta",
+        "symfony/ai-bundle": "^1.0@beta",
         "symfony/ai-platform": "^1.0@beta"
     },
     "require-dev": {
@@ -41,6 +42,9 @@
         "sylius-labs/suite-tags-extension": "~0.2",
         "sylius/sylius-rector": "^2.0",
         "sylius/test-application": "^2.0.0@alpha",
+        "symfony/ai-anthropic-platform": "^1.0@beta",
+        "symfony/ai-mistral-platform": "^1.0@beta",
+        "symfony/ai-open-ai-platform": "^1.0@beta",
         "symfony/browser-kit": "^6.4 || ^7.4",
         "symfony/debug-bundle": "^6.4 || ^7.4",
         "symfony/dotenv": "^6.4 || ^7.4",
@@ -49,6 +53,11 @@
         "symfony/runtime": "^6.4 || ^7.4",
         "symfony/web-profiler-bundle": "^6.4 || ^7.4",
         "symfony/webpack-encore-bundle": "^2.2"
+    },
+    "suggest": {
+        "symfony/ai-anthropic-platform": "Install the AI provider you use: Anthropic",
+        "symfony/ai-mistral-platform": "Install the AI provider you use: Mistral",
+        "symfony/ai-open-ai-platform": "Install the AI provider you use: OpenAI"
     },
     "config": {
         "sort-packages": true,
