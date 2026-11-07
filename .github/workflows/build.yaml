@@ -100,6 +100,14 @@ jobs:
                 run: composer validate --ansi --strict
 
             -
+                name: Run PHPStan
+                run: vendor/bin/phpstan analyse --ansi
+
+            -
+                name: Check coding standard
+                run: vendor/bin/ecs check --ansi
+
+            -
                 name: Validate container
                 run: vendor/bin/console lint:container
 
