@@ -5,12 +5,19 @@
     "keywords": [
         "sylius",
         "sylius-plugin",
-        "test-appication"
+        "ai",
+        "agents",
+        "llm",
+        "symfony-ai"
     ],
     "license": "MIT",
+    "minimum-stability": "beta",
+    "prefer-stable": true,
     "require": {
         "php": "^8.2",
-        "sylius/sylius": "^2.0"
+        "sylius/sylius": "^2.2",
+        "symfony/ai-agent": "^1.0@beta",
+        "symfony/ai-platform": "^1.0@beta"
     },
     "require-dev": {
         "behat/behat": "^3.16",
