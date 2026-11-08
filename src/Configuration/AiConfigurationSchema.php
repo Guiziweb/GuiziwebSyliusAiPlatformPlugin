@@ -9,6 +9,7 @@ use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\Config\Definition\BooleanNode;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\EnumNode;
 use Symfony\Component\Config\Definition\IntegerNode;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\PrototypedArrayNode;
@@ -122,7 +123,7 @@ final class AiConfigurationSchema
             }
 
             $info = $child->getInfo();
-            $fields[] = new ProviderField($name, $this->typeOf($child), $child->isRequired(), is_string($info) && '' !== $info ? $info : null);
+            $fields[] = new ProviderField($name, $this->typeOf($child), $child->isRequired(), is_string($info) && '' !== $info ? $info : null, $this->choicesOf($child));
         }
 
         return $fields;
@@ -133,7 +134,16 @@ final class AiConfigurationSchema
         return match (true) {
             $node instanceof BooleanNode => ProviderFieldType::Boolean,
             $node instanceof IntegerNode => ProviderFieldType::Integer,
+            $node instanceof EnumNode => ProviderFieldType::Choice,
             default => ProviderFieldType::String,
         };
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function choicesOf(BaseNode $node): array
+    {
+        return $node instanceof EnumNode ? array_values(array_filter($node->getValues(), is_string(...))) : [];
     }
 }

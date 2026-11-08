@@ -9,4 +9,5 @@ enum ProviderFieldType: string
     case String = 'string';
     case Integer = 'integer';
     case Boolean = 'boolean';
+    case Choice = 'choice';
 }
