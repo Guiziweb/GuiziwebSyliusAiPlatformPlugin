@@ -1,0 +1,12 @@
+{% import '@SyliusAdmin/shared/helper/dropdown.html.twig' as dropdown %}
+
+{{ dropdown.list(
+    {
+        direction: 'down-end',
+        button: { text: 'sylius.ui.create'|trans, icon: 'tabler:plus' }
+    },
+    guiziweb_ai_platform_provider_types()|map(type => {
+        title: type,
+        url: path('guiziweb_sylius_ai_platform_admin_provider_create', { 'type': type }),
+    })
+) }}

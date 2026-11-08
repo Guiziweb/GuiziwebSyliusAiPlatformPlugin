@@ -1,0 +1,18 @@
+guiziweb_sylius_ai_platform:
+    ui:
+        provider: AI provider
+        providers: AI providers
+        manage_providers: Connect your AI providers
+        new_provider: New AI provider
+        edit_provider: Edit AI provider
+    grid:
+        provider:
+            code: Name
+            type: Provider
+            enabled: Enabled
+    form:
+        provider:
+            code: Name of this provider
+            type: Provider
+            enabled: Enabled
+            configuration: Provider settings

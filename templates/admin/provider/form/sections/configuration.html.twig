@@ -1,0 +1,15 @@
+<div class="card mb-3">
+    <div class="card-header">
+        <div class="card-title">{{ 'guiziweb_sylius_ai_platform.form.provider.configuration'|trans }}</div>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            {% for field in hookable_metadata.context.form.config|default([]) %}
+                <div class="col-12 col-md-6">
+                    {{ form_row(field) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
