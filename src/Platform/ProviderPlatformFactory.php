@@ -21,39 +21,46 @@ final class ProviderPlatformFactory
 
     public function create(ProviderInterface $provider): PlatformInterface
     {
-        $type = $provider->getType() ?? throw new \InvalidArgumentException('The connection has no provider type.');
+        $package = $provider->getType() ?? throw new \InvalidArgumentException('The connection has no bridge.');
         $code = $provider->getCode() ?? throw new \InvalidArgumentException('The connection has no code.');
 
-        $factory = $this->bridges->factoryOf($type)
-            ?? throw new \RuntimeException(sprintf('No Symfony AI bridge is installed for "%s". Install the matching "symfony/ai-*-platform" package.', $type));
+        $bridge = $this->bridges->get($package)
+            ?? throw new \RuntimeException(sprintf('The bridge "%s" is not installed or cannot be used. Install it with "composer require %s".', $package, $package));
 
-        $platform = $factory::createPlatform(...$this->argumentsFor($factory, $code, $provider->getConfig()));
+        $platform = $bridge->factory::createPlatform(...$this->argumentsFor($bridge, $code, $provider->getConfig()));
         Assert::isInstanceOf($platform, PlatformInterface::class);
 
         return $platform;
     }
 
     /**
-     * @param class-string        $factory
      * @param array<string, mixed> $config
      *
      * @return array<string, mixed>
      */
-    private function argumentsFor(string $factory, string $code, array $config): array
+    private function argumentsFor(Bridge $bridge, string $code, array $config): array
     {
-        $arguments = ['httpClient' => $this->httpClient, 'eventDispatcher' => $this->eventDispatcher, 'name' => $code];
+        $arguments = array_intersect_key(
+            ['httpClient' => $this->httpClient, 'eventDispatcher' => $this->eventDispatcher, 'name' => $code],
+            array_flip($bridge->parameters),
+        );
 
-        foreach ($config as $field => $value) {
+        foreach ($config as $name => $value) {
+            if (null === $bridge->field($name)) {
+                throw new \InvalidArgumentException(sprintf('"%s" is not a setting of %s.', $name, $bridge->package));
+            }
+
             if (null !== $value && '' !== $value) {
-                $arguments[lcfirst(str_replace('_', '', ucwords($field, '_')))] = $value;
+                $arguments[$name] = $value;
             }
         }
 
-        $accepted = array_map(
-            static fn (\ReflectionParameter $parameter): string => $parameter->getName(),
-            (new \ReflectionMethod($factory, 'createPlatform'))->getParameters(),
-        );
+        foreach ($bridge->fields as $field) {
+            if ($field->required && !isset($arguments[$field->name])) {
+                throw new \InvalidArgumentException(sprintf('"%s" is required by %s.', $field->name, $bridge->package));
+            }
+        }
 
-        return array_intersect_key($arguments, array_flip($accepted));
+        return $arguments;
     }
 }
