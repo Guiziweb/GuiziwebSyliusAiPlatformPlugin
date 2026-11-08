@@ -24,10 +24,10 @@ final class AiConfigurationSchema
     /** @var list<ProviderSchema>|null */
     private ?array $providers = null;
 
-    public function provider(string $code): ?ProviderSchema
+    public function provider(string $type): ?ProviderSchema
     {
         foreach ($this->providers() as $provider) {
-            if ($provider->code === $code) {
+            if ($provider->type === $type) {
                 return $provider;
             }
         }
@@ -50,14 +50,14 @@ final class AiConfigurationSchema
     {
         $providers = [];
 
-        foreach ($this->platformNode()->getChildren() as $code => $node) {
+        foreach ($this->platformNode()->getChildren() as $type => $node) {
             $children = $this->childrenOf($node);
 
-            if (in_array($code, self::PROVIDERS_WITH_SEVERAL_FACTORIES, true) || $this->wrapsAnotherPlatform($children)) {
+            if (in_array($type, self::PROVIDERS_WITH_SEVERAL_FACTORIES, true) || $this->wrapsAnotherPlatform($children)) {
                 continue;
             }
 
-            $providers[] = new ProviderSchema($code, $this->fieldsOf($children));
+            $providers[] = new ProviderSchema($type, $this->fieldsOf($children));
         }
 
         return $providers;
