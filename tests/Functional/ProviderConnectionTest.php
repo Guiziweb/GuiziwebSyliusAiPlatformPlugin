@@ -108,6 +108,7 @@ final class ProviderConnectionTest extends KernelTestCase
         yield 'a punctuation mark' => ['openai!'];
         yield 'only punctuation' => [';,,,'];
         yield 'an accent' => ['compté'];
+        yield 'a trailing line break' => ["openai\n"];
     }
 
     #[DataProvider('codesThatAreNotAllowed')]
