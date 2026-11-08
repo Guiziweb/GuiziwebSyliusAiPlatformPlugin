@@ -11,6 +11,6 @@ return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
 $services->set('guiziweb_sylius_ai_platform.validator.known_provider_type', KnownProviderTypeValidator::class)
-        ->args([service('guiziweb_sylius_ai_platform.configuration.schema')])
+        ->args([service('guiziweb_sylius_ai_platform.platform.installed_bridges')])
         ->tag('validator.constraint_validator');
 };
