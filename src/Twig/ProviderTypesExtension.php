@@ -25,6 +25,6 @@ final class ProviderTypesExtension extends AbstractExtension
      */
     public function providerTypes(): array
     {
-        return array_map(static fn (ProviderSchema $provider): string => $provider->code, $this->schema->providers());
+        return array_map(static fn (ProviderSchema $provider): string => $provider->type, $this->schema->providers());
     }
 }

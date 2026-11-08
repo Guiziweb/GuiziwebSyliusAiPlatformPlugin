@@ -6,8 +6,10 @@ namespace Guiziweb\SyliusAiPlatformPlugin\Form\Type;
 
 use Guiziweb\SyliusAiPlatformPlugin\Configuration\AiConfigurationSchema;
 use Guiziweb\SyliusAiPlatformPlugin\Configuration\ProviderField;
+use Guiziweb\SyliusAiPlatformPlugin\Configuration\ProviderFieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -54,10 +56,11 @@ final class ProviderConfigurationType extends AbstractType
      */
     private function formTypeOf(ProviderField $field): string
     {
-        return match (true) {
-            'bool' === $field->type => CheckboxType::class,
-            'int' === $field->type => IntegerType::class,
-            default => TextType::class,
+        return match ($field->type) {
+            ProviderFieldType::Boolean => CheckboxType::class,
+            ProviderFieldType::Integer => IntegerType::class,
+            ProviderFieldType::Choice => ChoiceType::class,
+            ProviderFieldType::String => TextType::class,
         };
     }
 
@@ -72,7 +75,12 @@ final class ProviderConfigurationType extends AbstractType
             'required' => false,
         ];
 
-        if ($field->required && 'bool' !== $field->type) {
+        if (ProviderFieldType::Choice === $field->type) {
+            $options['choices'] = array_combine($field->choices, $field->choices);
+            $options['placeholder'] = $field->required ? false : '';
+        }
+
+        if ($field->required && ProviderFieldType::Boolean !== $field->type) {
             $options['constraints'] = [new NotBlank()];
             $options['required'] = true;
         }

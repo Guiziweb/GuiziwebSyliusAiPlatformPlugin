@@ -9,6 +9,7 @@ use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\Config\Definition\BooleanNode;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\EnumNode;
 use Symfony\Component\Config\Definition\IntegerNode;
 use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\Config\Definition\PrototypedArrayNode;
@@ -24,10 +25,10 @@ final class AiConfigurationSchema
     /** @var list<ProviderSchema>|null */
     private ?array $providers = null;
 
-    public function provider(string $code): ?ProviderSchema
+    public function provider(string $type): ?ProviderSchema
     {
         foreach ($this->providers() as $provider) {
-            if ($provider->code === $code) {
+            if ($provider->type === $type) {
                 return $provider;
             }
         }
@@ -50,14 +51,14 @@ final class AiConfigurationSchema
     {
         $providers = [];
 
-        foreach ($this->platformNode()->getChildren() as $code => $node) {
+        foreach ($this->platformNode()->getChildren() as $type => $node) {
             $children = $this->childrenOf($node);
 
-            if (in_array($code, self::PROVIDERS_WITH_SEVERAL_FACTORIES, true) || $this->wrapsAnotherPlatform($children)) {
+            if (in_array($type, self::PROVIDERS_WITH_SEVERAL_FACTORIES, true) || $this->wrapsAnotherPlatform($children)) {
                 continue;
             }
 
-            $providers[] = new ProviderSchema($code, $this->fieldsOf($children));
+            $providers[] = new ProviderSchema($type, $this->fieldsOf($children));
         }
 
         return $providers;
@@ -122,18 +123,27 @@ final class AiConfigurationSchema
             }
 
             $info = $child->getInfo();
-            $fields[] = new ProviderField($name, $this->typeOf($child), $child->isRequired(), is_string($info) && '' !== $info ? $info : null);
+            $fields[] = new ProviderField($name, $this->typeOf($child), $child->isRequired(), is_string($info) && '' !== $info ? $info : null, $this->choicesOf($child));
         }
 
         return $fields;
     }
 
-    private function typeOf(BaseNode $node): string
+    private function typeOf(BaseNode $node): ProviderFieldType
     {
         return match (true) {
-            $node instanceof BooleanNode => 'bool',
-            $node instanceof IntegerNode => 'int',
-            default => 'string',
+            $node instanceof BooleanNode => ProviderFieldType::Boolean,
+            $node instanceof IntegerNode => ProviderFieldType::Integer,
+            $node instanceof EnumNode => ProviderFieldType::Choice,
+            default => ProviderFieldType::String,
         };
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function choicesOf(BaseNode $node): array
+    {
+        return $node instanceof EnumNode ? array_values(array_filter($node->getValues(), is_string(...))) : [];
     }
 }
