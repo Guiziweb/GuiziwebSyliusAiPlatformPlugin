@@ -1,1 +1,17 @@
-# Define your own admin routes here
+guiziweb_sylius_ai_platform_admin_provider:
+    resource: |
+        alias: guiziweb_sylius_ai_platform.provider
+        section: admin
+        templates: '@SyliusAdmin/shared/crud'
+        except: ['show', 'create']
+        redirect: update
+        grid: guiziweb_sylius_ai_platform_admin_provider
+        form:
+            type: Guiziweb\SyliusAiPlatformPlugin\Form\Type\ProviderType
+        vars:
+            all:
+                subheader: guiziweb_sylius_ai_platform.ui.manage_providers
+            index:
+                icon: 'tabler:plug-connected'
+    type: sylius.resource
+    prefix: /%sylius_admin.path_name%/ai
