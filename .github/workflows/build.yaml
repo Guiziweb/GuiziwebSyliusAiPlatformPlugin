@@ -88,6 +88,10 @@ jobs:
                     symfony_version: "${{ matrix.symfony }}"
 
             -
+                name: Generate test application encryption key
+                run: vendor/bin/console sylius:payment:generate-key -n
+
+            -
                 name: Run unit tests
                 run: vendor/bin/phpunit --colors=always --testsuite=unit
 
