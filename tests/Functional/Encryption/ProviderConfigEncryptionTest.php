@@ -7,6 +7,7 @@ namespace Tests\Guiziweb\SyliusAiPlatformPlugin\Functional\Encryption;
 use Doctrine\ORM\EntityManagerInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\Provider;
 use Sylius\Component\Payment\Encryption\EncrypterInterface;
+use Sylius\Component\Payment\Encryption\Exception\EncryptionException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class ProviderConfigEncryptionTest extends KernelTestCase
@@ -26,7 +27,12 @@ final class ProviderConfigEncryptionTest extends KernelTestCase
 
     protected function tearDown(): void
     {
-        $this->entityManager->getConnection()->rollBack();
+        $connection = $this->entityManager->getConnection();
+
+        if ($connection->isTransactionActive()) {
+            $connection->rollBack();
+        }
+
         $this->entityManager->clear();
 
         parent::tearDown();
@@ -37,11 +43,13 @@ final class ProviderConfigEncryptionTest extends KernelTestCase
         $this->save($this->connection('openai-eu', ['api_key' => self::SECRET, 'region' => 'EU']));
 
         $stored = $this->storedConfig('openai-eu');
+        $values = $this->decode($stored);
 
+        self::assertCount(2, $values);
         self::assertStringNotContainsString(self::SECRET, $stored);
         self::assertStringNotContainsString('"EU"', $stored);
 
-        foreach ($this->decode($stored) as $value) {
+        foreach ($values as $value) {
             self::assertIsString($value);
             self::assertStringEndsWith(EncrypterInterface::ENCRYPTION_SUFFIX, $value);
         }
@@ -51,22 +59,24 @@ final class ProviderConfigEncryptionTest extends KernelTestCase
     {
         $this->save($this->connection('openai-eu', ['api_key' => self::SECRET, 'region' => 'EU']));
 
-        self::assertEqualsCanonicalizing(['api_key', 'region'], array_keys($this->decode($this->storedConfig('openai-eu'))));
+        self::assertSame(['api_key', 'region'], array_keys($this->sortedByName($this->decode($this->storedConfig('openai-eu')))));
     }
 
-    public function test_the_values_are_decrypted_when_the_connection_is_loaded(): void
+    public function test_each_value_is_decrypted_under_its_own_setting_when_the_connection_is_loaded(): void
     {
         $this->save($this->connection('openai-eu', ['api_key' => self::SECRET, 'region' => 'EU']));
 
-        self::assertEqualsCanonicalizing(['api_key' => self::SECRET, 'region' => 'EU'], $this->find('openai-eu')->getConfig());
+        self::assertSame(['api_key' => self::SECRET, 'region' => 'EU'], $this->sortedByName($this->find('openai-eu')->getConfig()));
     }
 
     public function test_the_values_keep_their_type_when_the_connection_is_loaded(): void
     {
-        $config = ['base_url' => 'https://llm.example.test', 'supports_completions' => false, 'timeout' => 30];
-        $this->save($this->connection('mine', $config));
+        $this->save($this->connection('mine', ['base_url' => 'https://llm.example.test', 'supports_completions' => false, 'timeout' => 30]));
 
-        self::assertEqualsCanonicalizing($config, $this->find('mine')->getConfig());
+        self::assertSame(
+            ['base_url' => 'https://llm.example.test', 'supports_completions' => false, 'timeout' => 30],
+            $this->sortedByName($this->find('mine')->getConfig()),
+        );
     }
 
     public function test_the_connection_is_readable_right_after_it_is_saved(): void
@@ -91,6 +101,20 @@ final class ProviderConfigEncryptionTest extends KernelTestCase
         self::assertStringNotContainsString(self::SECRET, $stored);
         self::assertStringNotContainsString('sk-the-new-secret', $stored);
         self::assertSame(['api_key' => 'sk-the-new-secret'], $this->find('openai-eu')->getConfig());
+    }
+
+    public function test_a_stored_value_that_only_looks_encrypted_is_refused_instead_of_being_lost(): void
+    {
+        $this->entityManager->getConnection()->insert('guiziweb_sylius_ai_platform_provider', [
+            'code' => 'broken',
+            'type' => 'openai',
+            'config' => json_encode(['api_key' => 'sk-plain' . EncrypterInterface::ENCRYPTION_SUFFIX], \JSON_THROW_ON_ERROR),
+            'enabled' => 1,
+        ]);
+
+        $this->expectException(EncryptionException::class);
+
+        $this->find('broken');
     }
 
     /**
@@ -138,5 +162,17 @@ final class ProviderConfigEncryptionTest extends KernelTestCase
         self::assertIsArray($decoded);
 
         return $decoded;
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     *
+     * @return array<string, mixed>
+     */
+    private function sortedByName(array $config): array
+    {
+        ksort($config);
+
+        return $config;
     }
 }

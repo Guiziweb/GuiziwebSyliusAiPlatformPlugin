@@ -70,7 +70,7 @@ final class ProviderConfigEncrypterTest extends TestCase
 
         $this->encrypter->decrypt($connection);
 
-        self::assertNotInstanceOf(\stdClass::class, $connection->getConfig()['api_key']);
+        self::assertInstanceOf(\__PHP_Incomplete_Class::class, $connection->getConfig()['api_key']);
     }
 
     /**
