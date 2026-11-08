@@ -1,0 +1,59 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.provider.create.content':
+            form:
+                component: 'guiziweb_sylius_ai_platform:provider:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                configuration:
+                    render_rest: false
+                priority: 0
+
+        'sylius_admin.provider.update.content':
+            form:
+                component: 'guiziweb_sylius_ai_platform:provider:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@SyliusAdmin/shared/crud/common/content/form.html.twig'
+                configuration:
+                    render_rest: false
+                    method: 'PUT'
+                priority: 0
+
+        'sylius_admin.provider.create.content.form':
+            sections:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections.html.twig'
+                priority: 0
+
+        'sylius_admin.provider.update.content.form':
+            sections:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections.html.twig'
+                priority: 0
+
+        'sylius_admin.provider.create.content.form.sections': &sections
+            general:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections/general.html.twig'
+                priority: 100
+            configuration:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections/configuration.html.twig'
+                priority: 0
+
+        'sylius_admin.provider.update.content.form.sections': *sections
+
+        'sylius_admin.provider.create.content.form.sections.general': &general
+            default:
+                enabled: false
+            type:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections/general/type.html.twig'
+                priority: 200
+            code:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections/general/code.html.twig'
+                priority: 100
+            enabled:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/form/sections/general/enabled.html.twig'
+                priority: 0
+
+        'sylius_admin.provider.update.content.form.sections.general': *general
