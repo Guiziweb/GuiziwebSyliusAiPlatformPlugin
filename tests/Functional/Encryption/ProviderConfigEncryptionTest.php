@@ -9,19 +9,16 @@ use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\Provider;
 use Sylius\Component\Payment\Encryption\EncrypterInterface;
 use Sylius\Component\Payment\Encryption\Exception\EncryptionException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Tests\Guiziweb\SyliusAiPlatformPlugin\Functional\GeneratesTheEncryptionKeyTrait;
 
 final class ProviderConfigEncryptionTest extends KernelTestCase
 {
-    use GeneratesTheEncryptionKeyTrait;
-
     private const SECRET = 'sk-this-must-not-be-readable-in-the-database';
 
     private EntityManagerInterface $entityManager;
 
     protected function setUp(): void
     {
-        self::generateTheEncryptionKeyIfMissing(self::bootKernel());
+        self::bootKernel();
         $entityManager = self::getContainer()->get('doctrine.orm.entity_manager');
         self::assertInstanceOf(EntityManagerInterface::class, $entityManager);
         $this->entityManager = $entityManager;
