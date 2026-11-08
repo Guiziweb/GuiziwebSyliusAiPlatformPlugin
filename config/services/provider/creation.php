@@ -11,7 +11,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
-$services->set('guiziweb_sylius_ai_platform.custom_factory.provider', ProviderFactory::class)
+    $services->set('guiziweb_sylius_ai_platform.custom_factory.provider', ProviderFactory::class)
         ->decorate('guiziweb_sylius_ai_platform.factory.provider')
         ->args([service('.inner'), service('guiziweb_sylius_ai_platform.configuration.schema')]);
 

@@ -58,7 +58,7 @@ final class AiConfigurationSchema
                 continue;
             }
 
-            $providers[] = new ProviderSchema($type, $this->fieldsOf($children));
+            $providers[] = new ProviderSchema($type, $node instanceof PrototypedArrayNode, $this->fieldsOf($children));
         }
 
         return $providers;

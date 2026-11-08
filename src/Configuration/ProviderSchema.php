@@ -11,6 +11,7 @@ final readonly class ProviderSchema
      */
     public function __construct(
         public string $type,
+        public bool $configuredByName,
         public array $fields,
     ) {
     }

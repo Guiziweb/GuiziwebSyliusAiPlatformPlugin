@@ -5,7 +5,7 @@ guiziweb_sylius_ai_platform:
     ui:
         provider: AI provider
         providers: AI providers
-        manage_providers: Connect your AI accounts
+        manage_providers: Connect your AI providers
         new_provider: New AI provider
         edit_provider: Edit AI provider
     grid:
@@ -13,11 +13,10 @@ guiziweb_sylius_ai_platform:
             code: Name
             type: Provider
             enabled: Enabled
-            search: Search
-            test: Test connection
+            check: Check platform
     form:
         provider:
-            code: Name of this connection
+            code: Name of this provider
             type: Provider
             enabled: Enabled
-            configuration: Account details
+            configuration: Provider settings

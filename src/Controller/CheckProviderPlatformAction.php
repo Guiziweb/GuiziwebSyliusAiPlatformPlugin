@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class TestProviderAction extends AbstractController
+final class CheckProviderPlatformAction extends AbstractController
 {
     /**
      * @param RepositoryInterface<ProviderInterface> $providerRepository
@@ -28,7 +28,7 @@ final class TestProviderAction extends AbstractController
 
         try {
             $this->platformFactory->create($provider);
-            $this->addFlash('success', 'guiziweb_sylius_ai_platform.test.platform_built');
+            $this->addFlash('success', 'guiziweb_sylius_ai_platform.check.platform_built');
         } catch (\Throwable $exception) {
             $this->addFlash('error', $exception->getMessage());
         }
