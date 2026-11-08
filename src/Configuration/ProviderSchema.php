@@ -10,7 +10,7 @@ final readonly class ProviderSchema
      * @param list<ProviderField> $fields
      */
     public function __construct(
-        public string $code,
+        public string $type,
         public array $fields,
     ) {
     }
