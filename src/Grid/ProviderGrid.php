@@ -62,12 +62,12 @@ final class ProviderGrid implements ProviderGridInterface
                 Action::create('create', 'create_provider'),
             )
             ->withItemActions(
-                Action::create('test', 'default')
-                    ->setLabel('guiziweb_sylius_ai_platform.grid.provider.test')
+                Action::create('check', 'default')
+                    ->setLabel('guiziweb_sylius_ai_platform.grid.provider.check')
                     ->setIcon('tabler:plug-connected')
                     ->setOptions([
                         'link' => [
-                            'route' => 'guiziweb_sylius_ai_platform_admin_provider_test',
+                            'route' => 'guiziweb_sylius_ai_platform_admin_provider_check',
                             'parameters' => ['id' => 'resource.id'],
                         ],
                     ]),

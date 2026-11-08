@@ -10,7 +10,7 @@ guiziweb_sylius_ai_platform:
             code: Name
             type: Provider
             enabled: Enabled
-            test: Test connection
+            check: Check platform
     form:
         provider:
             code: Name of this provider

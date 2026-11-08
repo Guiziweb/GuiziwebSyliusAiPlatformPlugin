@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Guiziweb\SyliusAiPlatformPlugin\Controller\TestProviderAction;
+use Guiziweb\SyliusAiPlatformPlugin\Controller\CheckProviderPlatformAction;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -10,7 +10,7 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ContainerConfigurator $container): void {
     $services = $container->services();
 
-$services->set('guiziweb_sylius_ai_platform.controller.test_provider', TestProviderAction::class)
+    $services->set('guiziweb_sylius_ai_platform.controller.check_provider_platform', CheckProviderPlatformAction::class)
         ->args([
             service('guiziweb_sylius_ai_platform.repository.provider'),
             service('guiziweb_sylius_ai_platform.platform.factory'),
