@@ -11,6 +11,7 @@ guiziweb_sylius_ai_platform:
             type: Provider
             enabled: Enabled
             search: Search
+            test: Test connection
     form:
         provider:
             code: Name of this connection

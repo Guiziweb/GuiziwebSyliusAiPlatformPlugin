@@ -1,0 +1,3 @@
+guiziweb_sylius_ai_platform:
+    test:
+        platform_built: Platform can be built. The key itself is not checked.

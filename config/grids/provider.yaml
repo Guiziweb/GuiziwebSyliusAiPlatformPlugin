@@ -44,6 +44,15 @@ sylius_grid:
                     create:
                         type: create_provider
                 item:
+                    test:
+                        type: default
+                        label: guiziweb_sylius_ai_platform.grid.provider.test
+                        icon: 'tabler:plug-connected'
+                        options:
+                            link:
+                                route: guiziweb_sylius_ai_platform_admin_provider_test
+                                parameters:
+                                    id: resource.id
                     update:
                         type: update
                     delete:

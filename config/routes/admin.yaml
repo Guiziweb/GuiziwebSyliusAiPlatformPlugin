@@ -36,3 +36,11 @@ guiziweb_sylius_ai_platform_admin_provider_create:
                 route:
                     parameters:
                         type: $type
+
+guiziweb_sylius_ai_platform_admin_provider_test:
+    path: /%sylius_admin.path_name%/ai/providers/{id}/test
+    methods: [GET]
+    defaults:
+        _controller: guiziweb_sylius_ai_platform.controller.test_provider
+    requirements:
+        id: '\d+'
