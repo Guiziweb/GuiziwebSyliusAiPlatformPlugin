@@ -1,0 +1,7 @@
+guiziweb_sylius_ai_platform:
+    provider:
+        code:
+            unique: Another connection already uses this code.
+            regex: The code can only contain letters, digits, dashes and underscores.
+        type:
+            unknown: '"{{ type }}" is not a known AI provider.'
