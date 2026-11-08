@@ -22,7 +22,7 @@ class Provider implements ProviderInterface
 
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
-    #[Assert\Regex(pattern: '/^[\w-]+$/', message: 'guiziweb_sylius_ai_platform.provider.code.regex')]
+    #[Assert\Regex(pattern: '/^[\w-]+$/D', message: 'guiziweb_sylius_ai_platform.provider.code.regex')]
     #[ORM\Column(length: 255)]
     protected ?string $code = null;
 
