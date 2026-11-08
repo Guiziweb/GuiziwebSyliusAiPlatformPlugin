@@ -1,4 +1,14 @@
-# Put your Behat suites definitions here
-
 default:
-    suites: ~
+    suites:
+        ui_managing_ai_providers:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - sylius.behat.context.hook.session
+
+                - sylius.behat.context.setup.admin_security
+                - guiziweb_sylius_ai_platform.behat.context.setup.provider
+
+                - sylius.behat.context.ui.admin.notification
+                - guiziweb_sylius_ai_platform.behat.context.ui.admin.managing_providers
+            filters:
+                tags: "@managing_ai_providers&&@ui"
