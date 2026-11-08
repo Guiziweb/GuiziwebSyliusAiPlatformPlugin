@@ -10,7 +10,6 @@ guiziweb_sylius_ai_platform:
             code: Name
             type: Provider
             enabled: Enabled
-            search: Search
     form:
         provider:
             code: Name of this connection
