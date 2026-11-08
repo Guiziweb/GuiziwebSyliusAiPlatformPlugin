@@ -65,6 +65,42 @@ final class ProviderFormTest extends KernelTestCase
         self::assertTrue($form->get('type')->isDisabled());
     }
 
+    public function test_the_code_of_a_new_connection_can_be_edited(): void
+    {
+        self::assertFalse($this->form('openai')->get('code')->isDisabled());
+    }
+
+    public function test_the_code_of_a_saved_connection_cannot_be_edited(): void
+    {
+        $connection = new Provider();
+        $connection->setType('openai');
+        (new \ReflectionProperty(Provider::class, 'id'))->setValue($connection, 42);
+
+        self::assertTrue($this->formOf($connection)->get('code')->isDisabled());
+    }
+
+    public function test_a_required_setting_left_blank_is_refused(): void
+    {
+        $form = $this->form('openai');
+        $form->submit(['code' => 'openai-eu', 'enabled' => true, 'config' => ['api_key' => '', 'region' => 'EU']]);
+
+        self::assertFalse($form->isValid());
+        self::assertCount(1, $form->get('config')->get('api_key')->getErrors());
+        self::assertCount(0, $form->get('config')->get('region')->getErrors());
+    }
+
+    public function test_a_submitted_connection_is_valid_and_keeps_its_settings(): void
+    {
+        $form = $this->form('openai');
+        $form->submit(['code' => 'openai-eu', 'enabled' => true, 'config' => ['api_key' => 'sk-1', 'region' => 'EU']]);
+
+        self::assertTrue($form->isValid(), (string) $form->getErrors(true));
+        $connection = $form->getData();
+        self::assertInstanceOf(Provider::class, $connection);
+        self::assertSame('openai-eu', $connection->getCode());
+        self::assertSame(['api_key' => 'sk-1', 'region' => 'EU'], $connection->getConfig());
+    }
+
     private function configOf(string $type): FormInterface
     {
         return $this->form($type)->get('config');
@@ -72,13 +108,18 @@ final class ProviderFormTest extends KernelTestCase
 
     private function form(string $type): FormInterface
     {
+        $connection = new Provider();
+        $connection->setType($type);
+
+        return $this->formOf($connection);
+    }
+
+    private function formOf(Provider $connection): FormInterface
+    {
         self::bootKernel();
         $formFactory = self::getContainer()->get('form.factory');
         self::assertInstanceOf(FormFactoryInterface::class, $formFactory);
 
-        $connection = new Provider();
-        $connection->setType($type);
-
-        return $formFactory->create(ProviderType::class, $connection);
+        return $formFactory->create(ProviderType::class, $connection, ['csrf_protection' => false]);
     }
 }
