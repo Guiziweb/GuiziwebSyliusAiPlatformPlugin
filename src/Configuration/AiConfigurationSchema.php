@@ -128,12 +128,12 @@ final class AiConfigurationSchema
         return $fields;
     }
 
-    private function typeOf(BaseNode $node): string
+    private function typeOf(BaseNode $node): ProviderFieldType
     {
         return match (true) {
-            $node instanceof BooleanNode => 'bool',
-            $node instanceof IntegerNode => 'int',
-            default => 'string',
+            $node instanceof BooleanNode => ProviderFieldType::Boolean,
+            $node instanceof IntegerNode => ProviderFieldType::Integer,
+            default => ProviderFieldType::String,
         };
     }
 }

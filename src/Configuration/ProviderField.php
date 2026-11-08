@@ -8,7 +8,7 @@ final readonly class ProviderField
 {
     public function __construct(
         public string $name,
-        public string $type,
+        public ProviderFieldType $type,
         public bool $required,
         public ?string $description,
     ) {
