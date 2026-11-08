@@ -1,0 +1,7 @@
+sylius_resource:
+    resources:
+        guiziweb_sylius_ai_platform.provider:
+            driver: doctrine/orm
+            classes:
+                model: Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\Provider
+                interface: Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\ProviderInterface
