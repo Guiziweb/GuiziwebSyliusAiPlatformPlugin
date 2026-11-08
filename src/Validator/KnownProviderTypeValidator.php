@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Guiziweb\SyliusAiPlatformPlugin\Validator;
 
-use Guiziweb\SyliusAiPlatformPlugin\Platform\InstalledBridges;
+use Guiziweb\SyliusAiPlatformPlugin\Configuration\AiConfigurationSchema;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;
 
 final class KnownProviderTypeValidator extends ConstraintValidator
 {
-    public function __construct(private readonly InstalledBridges $bridges)
+    public function __construct(private readonly AiConfigurationSchema $schema)
     {
     }
 
@@ -19,7 +19,7 @@ final class KnownProviderTypeValidator extends ConstraintValidator
     {
         Assert::isInstanceOf($constraint, KnownProviderType::class);
 
-        if (!is_string($value) || '' === $value || null !== $this->bridges->get($value)) {
+        if (!is_string($value) || '' === $value || null !== $this->schema->provider($value)) {
             return;
         }
 
