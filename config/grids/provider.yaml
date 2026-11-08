@@ -40,6 +40,9 @@ sylius_grid:
                     type: boolean
                     label: guiziweb_sylius_ai_platform.grid.provider.enabled
             actions:
+                main:
+                    create:
+                        type: create_provider
                 item:
                     update:
                         type: update

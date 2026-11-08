@@ -15,3 +15,24 @@ guiziweb_sylius_ai_platform_admin_provider:
                 icon: 'tabler:plug-connected'
     type: sylius.resource
     prefix: /%sylius_admin.path_name%/ai
+
+guiziweb_sylius_ai_platform_admin_provider_create:
+    path: /%sylius_admin.path_name%/ai/providers/new/{type}
+    methods: [GET, POST]
+    defaults:
+        _controller: guiziweb_sylius_ai_platform.controller.provider::createAction
+        _sylius:
+            section: admin
+            factory:
+                method: createForType
+                arguments:
+                    type: $type
+            form:
+                type: Guiziweb\SyliusAiPlatformPlugin\Form\Type\ProviderType
+            template: '@SyliusAdmin/shared/crud/create.html.twig'
+            redirect: guiziweb_sylius_ai_platform_admin_provider_update
+            vars:
+                subheader: guiziweb_sylius_ai_platform.ui.manage_providers
+                route:
+                    parameters:
+                        type: $type

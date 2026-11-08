@@ -2,3 +2,8 @@ imports:
     - { resource: "resources/*.yaml" }
     - { resource: "grids/*.yaml" }
     - { resource: "twig_hooks/**/*.yaml" }
+
+sylius_grid:
+    templates:
+        action:
+            create_provider: '@GuiziwebSyliusAiPlatformPlugin/admin/provider/grid/action/create.html.twig'
