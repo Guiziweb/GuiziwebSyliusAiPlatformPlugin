@@ -27,8 +27,7 @@ final class ProviderConnectionTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        self::bootKernel();
-        self::generateTheEncryptionKeyIfMissing();
+        self::generateTheEncryptionKeyIfMissing(self::bootKernel());
         $entityManager = self::getContainer()->get('doctrine.orm.entity_manager');
         self::assertInstanceOf(EntityManagerInterface::class, $entityManager);
         $this->entityManager = $entityManager;
