@@ -34,7 +34,12 @@ final class ProviderConnectionTest extends KernelTestCase
 
     protected function tearDown(): void
     {
-        $this->entityManager->getConnection()->rollBack();
+        $connection = $this->entityManager->getConnection();
+
+        if ($connection->isTransactionActive()) {
+            $connection->rollBack();
+        }
+
         $this->entityManager->clear();
 
         parent::tearDown();
@@ -47,7 +52,7 @@ final class ProviderConnectionTest extends KernelTestCase
         $found = $this->find('openai-eu');
 
         self::assertSame('openai', $found->getType());
-        self::assertEqualsCanonicalizing(['api_key' => 'sk-1', 'region' => 'EU'], $found->getConfig());
+        self::assertSame(['api_key' => 'sk-1', 'region' => 'EU'], $this->sortedByName($found->getConfig()));
         self::assertTrue($found->isEnabled());
     }
 
@@ -62,7 +67,7 @@ final class ProviderConnectionTest extends KernelTestCase
         $this->entityManager->clear();
 
         $found = $this->find('openai-eu');
-        self::assertEqualsCanonicalizing(['api_key' => 'sk-2', 'region' => 'US'], $found->getConfig());
+        self::assertSame(['api_key' => 'sk-2', 'region' => 'US'], $this->sortedByName($found->getConfig()));
         self::assertFalse($found->isEnabled());
     }
 
@@ -164,6 +169,18 @@ final class ProviderConnectionTest extends KernelTestCase
         $connection->setConfig($config);
 
         return $connection;
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     *
+     * @return array<string, mixed>
+     */
+    private function sortedByName(array $config): array
+    {
+        ksort($config);
+
+        return $config;
     }
 
     private function save(ProviderInterface $connection): void
