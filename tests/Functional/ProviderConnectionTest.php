@@ -15,8 +15,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class ProviderConnectionTest extends KernelTestCase
 {
-    use GeneratesTheEncryptionKeyTrait;
-
     private const CODE_ALREADY_USED = 'guiziweb_sylius_ai_platform.provider.code.unique';
 
     private const CODE_NOT_ALLOWED = 'guiziweb_sylius_ai_platform.provider.code.regex';
@@ -27,7 +25,7 @@ final class ProviderConnectionTest extends KernelTestCase
 
     protected function setUp(): void
     {
-        self::generateTheEncryptionKeyIfMissing(self::bootKernel());
+        self::bootKernel();
         $entityManager = self::getContainer()->get('doctrine.orm.entity_manager');
         self::assertInstanceOf(EntityManagerInterface::class, $entityManager);
         $this->entityManager = $entityManager;
