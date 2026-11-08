@@ -1,0 +1,4 @@
+guiziweb_sylius_ai_platform:
+    provider:
+        type:
+            unknown: '"{{ type }}" is not a known AI provider.'
