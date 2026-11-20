@@ -12,3 +12,16 @@ default:
                 - guiziweb_sylius_ai_platform.behat.context.ui.admin.managing_providers
             filters:
                 tags: "@managing_ai_providers&&@ui"
+        ui_managing_ai_agents:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                - sylius.behat.context.hook.session
+
+                - sylius.behat.context.setup.admin_security
+                - guiziweb_sylius_ai_platform.behat.context.setup.provider
+                - guiziweb_sylius_ai_platform.behat.context.setup.agent
+
+                - sylius.behat.context.ui.admin.notification
+                - guiziweb_sylius_ai_platform.behat.context.ui.admin.managing_agents
+            filters:
+                tags: "@managing_ai_agents&&@ui"

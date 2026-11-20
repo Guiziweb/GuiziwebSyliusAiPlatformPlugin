@@ -16,6 +16,24 @@
             <argument>guiziweb_sylius_ai_platform_admin_provider_update</argument>
         </service>
 
+        <service id="guiziweb_sylius_ai_platform.behat.page.admin.agent.index" class="Sylius\Behat\Page\Admin\Crud\IndexPage" parent="sylius.behat.page.admin.crud.index">
+            <argument>guiziweb_sylius_ai_platform_admin_agent_index</argument>
+        </service>
+
+        <service id="guiziweb_sylius_ai_platform.behat.page.admin.agent.update" class="Tests\Guiziweb\SyliusAiPlatformPlugin\Behat\Page\Admin\Agent\UpdatePage" parent="sylius.behat.page.admin.crud.update">
+            <argument>guiziweb_sylius_ai_platform_admin_agent_update</argument>
+        </service>
+
+        <service id="guiziweb_sylius_ai_platform.behat.context.setup.agent" class="Tests\Guiziweb\SyliusAiPlatformPlugin\Behat\Context\Setup\AgentContext">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="guiziweb_sylius_ai_platform.behat.context.ui.admin.managing_agents" class="Tests\Guiziweb\SyliusAiPlatformPlugin\Behat\Context\Ui\Admin\ManagingAgentsContext">
+            <argument type="service" id="guiziweb_sylius_ai_platform.behat.page.admin.agent.update" />
+            <argument type="service" id="guiziweb_sylius_ai_platform.behat.page.admin.agent.index" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <service id="guiziweb_sylius_ai_platform.behat.context.setup.provider" class="Tests\Guiziweb\SyliusAiPlatformPlugin\Behat\Context\Setup\ProviderContext">
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>

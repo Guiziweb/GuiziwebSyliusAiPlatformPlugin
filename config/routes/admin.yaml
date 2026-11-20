@@ -44,3 +44,21 @@ guiziweb_sylius_ai_platform_admin_provider_check:
         _controller: guiziweb_sylius_ai_platform.controller.check_provider_platform
     requirements:
         id: '\d+'
+
+guiziweb_sylius_ai_platform_admin_agent:
+    resource: |
+        alias: guiziweb_sylius_ai_platform.agent
+        section: admin
+        templates: '@SyliusAdmin/shared/crud'
+        only: ['index', 'update']
+        redirect: index
+        grid: guiziweb_sylius_ai_platform_admin_agent
+        form:
+            type: Guiziweb\SyliusAiPlatformPlugin\Form\Type\AgentType
+        vars:
+            all:
+                subheader: guiziweb_sylius_ai_platform.ui.manage_agents
+            index:
+                icon: 'tabler:robot'
+    type: sylius.resource
+    prefix: /%sylius_admin.path_name%/ai

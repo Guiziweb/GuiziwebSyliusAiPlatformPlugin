@@ -24,5 +24,13 @@ final class AiMenuListener
             ->setLabel('guiziweb_sylius_ai_platform.menu.providers')
             ->setLabelAttribute('icon', 'tabler:plug-connected')
         ;
+
+        $section
+            ->addChild('agents', ['route' => 'guiziweb_sylius_ai_platform_admin_agent_index', 'extras' => ['routes' => [
+                ['route' => 'guiziweb_sylius_ai_platform_admin_agent_update'],
+            ]]])
+            ->setLabel('guiziweb_sylius_ai_platform.menu.agents')
+            ->setLabelAttribute('icon', 'tabler:robot')
+        ;
     }
 }

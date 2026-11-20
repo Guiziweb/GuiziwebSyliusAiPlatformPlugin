@@ -1,0 +1,5 @@
+{% if data is not null %}
+    {{ data.code }}
+{% else %}
+    <span class="text-secondary">{{ 'guiziweb_sylius_ai_platform.grid.agent.no_provider'|trans }}</span>
+{% endif %}

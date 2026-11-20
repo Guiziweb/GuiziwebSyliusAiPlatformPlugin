@@ -2,10 +2,15 @@ guiziweb_sylius_ai_platform:
     menu:
         ai: AI
         providers: Providers
+        agents: Agents
     ui:
         provider: AI provider
         providers: AI providers
         manage_providers: Connect your AI providers
+        agent: AI agent
+        agents: AI agents
+        edit_agent: Edit AI agent
+        manage_agents: Choose each agent's provider, model and prompt
         new_provider: New AI provider
         edit_provider: Edit AI provider
     grid:
@@ -14,7 +19,21 @@ guiziweb_sylius_ai_platform:
             type: Provider
             enabled: Enabled
             check: Check platform
+        agent:
+            name: Agent
+            provider: Provider
+            model: Model
+            customized: Customized
+            no_provider: Default configuration
     form:
+        agent:
+            provider: Provider
+            no_provider: Default configuration
+            model: Model
+            no_model: No model chosen
+            no_models_listed: No model could be listed for this provider.
+            model_needs_provider: Choose a provider first, the models of that provider are offered here.
+            prompt: Prompt
         provider:
             code: Name of this provider
             type: Provider

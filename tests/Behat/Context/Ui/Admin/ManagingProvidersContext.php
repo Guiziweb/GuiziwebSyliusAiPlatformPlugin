@@ -89,6 +89,12 @@ final readonly class ManagingProvidersContext implements Context
         $this->indexPage->getActionsForResource(['code' => $code])->clickLink('Check platform');
     }
 
+    #[Then('I should be notified that it is in use and cannot be deleted')]
+    public function iShouldBeNotifiedThatItIsInUseAndCannotBeDeleted(): void
+    {
+        Assert::true($this->notificationsElement->hasNotification((string) NotificationType::error(), 'Cannot delete, the Provider is in use.'));
+    }
+
     #[Then('the connection :code should appear in the registry')]
     public function theConnectionShouldAppearInTheRegistry(string $code): void
     {

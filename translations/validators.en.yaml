@@ -5,3 +5,6 @@ guiziweb_sylius_ai_platform:
             regex: The code can only contain letters, digits, dashes and underscores.
         type:
             unknown: '"{{ type }}" is not a known AI provider.'
+    agent:
+        model:
+            required: Choose a model for this provider.

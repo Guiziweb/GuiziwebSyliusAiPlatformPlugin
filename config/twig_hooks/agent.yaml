@@ -1,0 +1,19 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.agent.update.content':
+            form:
+                component: 'guiziweb_sylius_ai_platform:agent:form'
+                props:
+                    resource: '@=_context.resource'
+                    form: '@=_context.form'
+                    template: '@GuiziwebSyliusAiPlatformPlugin/admin/agent/form.html.twig'
+                configuration:
+                    method: 'PUT'
+                priority: 0
+
+        'sylius_admin.agent.update.content.form.sections.general':
+            default:
+                enabled: false
+            fields:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/agent/form/fields.html.twig'
+                priority: 0
