@@ -13,7 +13,7 @@ return static function (ContainerConfigurator $container): void {
     $services->set('guiziweb_sylius_ai_platform.controller.check_provider_platform', CheckProviderPlatformAction::class)
         ->args([
             service('guiziweb_sylius_ai_platform.repository.provider'),
-            service('guiziweb_sylius_ai_platform.platform.factory'),
+            service('guiziweb_sylius_ai_platform.platform.ai_provider_factory'),
         ])
         ->call('setContainer', [service(Psr\Container\ContainerInterface::class)])
         ->tag('container.service_subscriber')

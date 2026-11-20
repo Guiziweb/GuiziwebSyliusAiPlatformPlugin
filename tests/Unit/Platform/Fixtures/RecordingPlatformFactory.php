@@ -4,31 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Guiziweb\SyliusAiPlatformPlugin\Unit\Platform\Fixtures;
 
-use Symfony\AI\Platform\Model;
-use Symfony\AI\Platform\ModelCatalog\ModelCatalogInterface;
-use Symfony\AI\Platform\PlatformInterface;
-use Symfony\AI\Platform\Result\DeferredResult;
+use Symfony\AI\Platform\ProviderInterface;
+use Symfony\AI\Platform\Test\MockPlatformFactory;
 
 final class RecordingPlatformFactory
 {
     /** @var array<string, mixed> */
     public static array $arguments = [];
 
-    public static function createPlatform(string $name, ?object $httpClient = null, string $region = 'default'): PlatformInterface
+    /**
+     * @param non-empty-string $name
+     */
+    public static function createProvider(string $name, ?object $httpClient = null, string $region = 'default'): ProviderInterface
     {
         self::$arguments = ['name' => $name, 'httpClient' => $httpClient, 'region' => $region];
 
-        return new class() implements PlatformInterface {
-            public function invoke(string|Model $model, array|string|object $input, array $options = []): DeferredResult
-            {
-                throw new \LogicException('The fake platform does not answer.');
-            }
-
-            public function getModelCatalog(): ModelCatalogInterface
-            {
-                throw new \LogicException('The fake platform has no catalog.');
-            }
-        };
+        return MockPlatformFactory::createProvider('The fake provider does not answer.', name: $name);
     }
 
     public static function createNothing(): object

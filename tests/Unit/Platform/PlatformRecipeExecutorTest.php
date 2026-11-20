@@ -46,7 +46,7 @@ final class PlatformRecipeExecutorTest extends TestCase
         $executor->execute($this->recipe(values: ['name' => 'openai-eu'], services: ['httpClient' => 'logger']));
     }
 
-    public function test_a_factory_that_does_not_build_a_platform_is_refused(): void
+    public function test_a_factory_that_does_not_build_a_provider_is_refused(): void
     {
         $executor = new PlatformRecipeExecutor([]);
 
@@ -70,6 +70,6 @@ final class PlatformRecipeExecutorTest extends TestCase
      */
     private function recipe(array $values, array $services = []): PlatformRecipe
     {
-        return new PlatformRecipe(RecordingPlatformFactory::class, 'createPlatform', $values, $services);
+        return new PlatformRecipe(RecordingPlatformFactory::class, 'createProvider', $values, $services);
     }
 }
