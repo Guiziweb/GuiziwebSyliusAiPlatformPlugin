@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Guiziweb\SyliusAiPlatformPlugin\Functional\Agent;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManagerInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Agent\AgentRowReaderInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Agent\Agent;
@@ -43,9 +44,11 @@ final class AgentRowReaderTest extends KernelTestCase
 
         self::assertTrue($reader->read('reader_test')?->getProvider()?->isEnabled());
 
-        $this->entityManager->getConnection()->executeStatement(
-            'UPDATE guiziweb_sylius_ai_platform_provider SET enabled = 0 WHERE id = :id',
+        $this->entityManager->getConnection()->update(
+            'guiziweb_sylius_ai_platform_provider',
+            ['enabled' => false],
             ['id' => $providerId],
+            ['enabled' => Types::BOOLEAN],
         );
 
         self::assertFalse($reader->read('reader_test')?->getProvider()?->isEnabled());
