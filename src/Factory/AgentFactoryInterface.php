@@ -12,5 +12,5 @@ use Sylius\Resource\Factory\FactoryInterface;
  */
 interface AgentFactoryInterface extends FactoryInterface
 {
-    public function createDeclared(string $code, string $plugin, string $name, string $defaultPrompt): AgentInterface;
+    public function createDeclared(string $code, string $name, string $defaultPrompt): AgentInterface;
 }

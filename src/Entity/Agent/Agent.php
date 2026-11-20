@@ -22,9 +22,6 @@ class Agent implements AgentInterface
     protected ?string $code = null;
 
     #[ORM\Column(length: 255)]
-    protected ?string $plugin = null;
-
-    #[ORM\Column(length: 255)]
     protected ?string $name = null;
 
     #[Assert\NotBlank]
@@ -58,16 +55,6 @@ class Agent implements AgentInterface
     public function setCode(?string $code): void
     {
         $this->code = $code;
-    }
-
-    public function getPlugin(): ?string
-    {
-        return $this->plugin;
-    }
-
-    public function setPlugin(?string $plugin): void
-    {
-        $this->plugin = $plugin;
     }
 
     public function getName(): ?string
@@ -137,13 +124,12 @@ class Agent implements AgentInterface
         return self::withoutLineEndingNoise($this->prompt) !== self::withoutLineEndingNoise($this->defaultPrompt);
     }
 
-    public function refreshDeclaration(string $plugin, string $name, string $defaultPrompt): void
+    public function refreshDeclaration(string $name, string $defaultPrompt): void
     {
         if (!$this->isCustomized()) {
             $this->prompt = $defaultPrompt;
         }
 
-        $this->plugin = $plugin;
         $this->name = $name;
         $this->defaultPrompt = $defaultPrompt;
     }

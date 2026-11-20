@@ -15,10 +15,6 @@ interface AgentInterface extends ResourceInterface
 
     public function setCode(?string $code): void;
 
-    public function getPlugin(): ?string;
-
-    public function setPlugin(?string $plugin): void;
-
     public function getName(): ?string;
 
     public function setName(?string $name): void;
@@ -43,5 +39,5 @@ interface AgentInterface extends ResourceInterface
 
     public function isCustomized(): bool;
 
-    public function refreshDeclaration(string $plugin, string $name, string $defaultPrompt): void;
+    public function refreshDeclaration(string $name, string $defaultPrompt): void;
 }
