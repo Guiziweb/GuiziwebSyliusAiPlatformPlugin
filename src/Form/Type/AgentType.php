@@ -7,7 +7,7 @@ namespace Guiziweb\SyliusAiPlatformPlugin\Form\Type;
 use Doctrine\ORM\EntityRepository;
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Agent\AgentInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\ProviderInterface;
-use Guiziweb\SyliusAiPlatformPlugin\Platform\ChatModelNamesInterface;
+use Guiziweb\SyliusAiPlatformPlugin\Platform\ModelNamesInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -27,7 +27,7 @@ final class AgentType extends AbstractType
     public function __construct(
         private readonly string $providerClass,
         private readonly RepositoryInterface $providerRepository,
-        private readonly ChatModelNamesInterface $chatModelNames,
+        private readonly ModelNamesInterface $modelNames,
     ) {
     }
 
@@ -97,7 +97,7 @@ final class AgentType extends AbstractType
 
     private function addModelChoice(FormInterface $form, ?ProviderInterface $provider, ?string $keptModel): void
     {
-        $names = null === $provider ? [] : $this->chatModelNames->forProvider($provider);
+        $names = null === $provider ? [] : $this->modelNames->forProvider($provider);
         $listed = [] !== $names;
 
         if (null !== $provider && null !== $keptModel && !\in_array($keptModel, $names, true)) {

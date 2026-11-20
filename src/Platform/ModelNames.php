@@ -7,9 +7,8 @@ namespace Guiziweb\SyliusAiPlatformPlugin\Platform;
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\ProviderInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\AI\Platform\Capability;
 
-final class ChatModelNames implements ChatModelNamesInterface
+final class ModelNames implements ModelNamesInterface
 {
     public function __construct(
         private readonly AiProviderFactoryInterface $aiProviderFactory,
@@ -31,18 +30,7 @@ final class ChatModelNames implements ChatModelNamesInterface
             return [];
         }
 
-        $required = [Capability::INPUT_MESSAGES, Capability::OUTPUT_TEXT];
-
-        $names = [];
-
-        foreach ($models as $name => $model) {
-            $missing = array_filter($required, static fn (Capability $capability): bool => !\in_array($capability, $model['capabilities'], true));
-
-            if ([] === $missing) {
-                $names[] = (string) $name;
-            }
-        }
-
+        $names = array_map(strval(...), array_keys($models));
         sort($names);
 
         return $names;

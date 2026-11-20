@@ -6,10 +6,10 @@ namespace Guiziweb\SyliusAiPlatformPlugin\Platform;
 
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\ProviderInterface;
 
-interface ChatModelNamesInterface
+interface ModelNamesInterface
 {
     /**
-     * @return list<string> the models of the provider's catalog that can chat
+     * @return list<string> the models of the provider's catalog
      */
     public function forProvider(ProviderInterface $provider): array;
 }

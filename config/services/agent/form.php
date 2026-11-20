@@ -16,7 +16,7 @@ return static function (ContainerConfigurator $container): void {
         ->args([
             param('guiziweb_sylius_ai_platform.model.provider.class'),
             service('guiziweb_sylius_ai_platform.repository.provider'),
-            service('guiziweb_sylius_ai_platform.platform.chat_model_names'),
+            service('guiziweb_sylius_ai_platform.platform.model_names'),
         ])
         ->tag('form.type');
 
