@@ -20,3 +20,12 @@ Feature: Browsing the agents
         And the agent "Sample assistant" uses the connection "openai-eu" with the model "gpt-4o-mini"
         When I browse the AI agents
         Then the agent "Sample assistant" should use the connection "openai-eu" with the model "gpt-4o-mini"
+
+    @ui
+    Scenario: Filtering the agents by the connection they use
+        Given there is a connection named "openai-eu" for the "openai" provider
+        And there is an agent named "Shopping assistant"
+        And the agent "Sample assistant" uses the connection "openai-eu" with the model "gpt-4o-mini"
+        When I browse the AI agents that use the connection "openai-eu"
+        Then I should see the agent "Sample assistant"
+        But I should not see the agent "Shopping assistant"

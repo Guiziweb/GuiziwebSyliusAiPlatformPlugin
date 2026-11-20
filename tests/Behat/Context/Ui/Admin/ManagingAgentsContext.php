@@ -9,6 +9,7 @@ use Behat\Step\Then;
 use Behat\Step\When;
 use Doctrine\ORM\EntityManagerInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Agent\Agent;
+use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\Provider;
 use Sylius\Behat\Page\Admin\Crud\IndexPageInterface;
 use Tests\Guiziweb\SyliusAiPlatformPlugin\Behat\Page\Admin\Agent\UpdatePage;
 use Webmozart\Assert\Assert;
@@ -26,6 +27,21 @@ final readonly class ManagingAgentsContext implements Context
     public function iBrowseTheAiAgents(): void
     {
         $this->indexPage->open();
+    }
+
+    #[When('I browse the AI agents that use the connection :code')]
+    public function iBrowseTheAiAgentsThatUseTheConnection(string $code): void
+    {
+        $connection = $this->entityManager->getRepository(Provider::class)->findOneBy(['code' => $code]);
+        Assert::notNull($connection);
+
+        $this->indexPage->open(['criteria' => ['provider' => $connection->getId()]]);
+    }
+
+    #[Then('I should not see the agent :name')]
+    public function iShouldNotSeeTheAgent(string $name): void
+    {
+        Assert::false($this->indexPage->isSingleResourceOnPage(['name' => $name]));
     }
 
     #[When('I want to modify the agent :name')]

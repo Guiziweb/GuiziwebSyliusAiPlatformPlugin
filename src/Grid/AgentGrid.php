@@ -7,6 +7,7 @@ namespace Guiziweb\SyliusAiPlatformPlugin\Grid;
 use Sylius\Bundle\GridBundle\Builder\Action\UpdateAction;
 use Sylius\Bundle\GridBundle\Builder\Field\StringField;
 use Sylius\Bundle\GridBundle\Builder\Field\TwigField;
+use Sylius\Bundle\GridBundle\Builder\Filter\EntityFilter;
 use Sylius\Bundle\GridBundle\Builder\Filter\Filter;
 use Sylius\Bundle\GridBundle\Builder\GridBuilderInterface;
 use Sylius\Component\Grid\Attribute\AsGrid;
@@ -14,6 +15,10 @@ use Sylius\Component\Grid\Attribute\AsGrid;
 #[AsGrid(resourceClass: '%guiziweb_sylius_ai_platform.model.agent.class%', name: AgentGridInterface::NAME)]
 final class AgentGrid implements AgentGridInterface
 {
+    public function __construct(private readonly string $providerClass)
+    {
+    }
+
     public function __invoke(GridBuilderInterface $gridBuilder): void
     {
         $gridBuilder
@@ -36,6 +41,9 @@ final class AgentGrid implements AgentGridInterface
             ->withFilters(
                 Filter::create('name', 'string')
                     ->setLabel('guiziweb_sylius_ai_platform.grid.agent.name'),
+                EntityFilter::create('provider', $this->providerClass)
+                    ->setLabel('guiziweb_sylius_ai_platform.grid.agent.provider')
+                    ->addFormOption('choice_label', 'code'),
             )
 
             ->withItemActions(
