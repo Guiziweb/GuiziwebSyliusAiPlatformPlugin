@@ -1,6 +1,7 @@
 imports:
     - { resource: "@GuiziwebSyliusAiPlatformPlugin/config/config.yaml" }
     - { resource: "services_test.php" }
+    - { resource: "sample_assistant.yaml" }
 
 twig:
     paths:

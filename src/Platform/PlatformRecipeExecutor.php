@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Guiziweb\SyliusAiPlatformPlugin\Platform;
 
-use Symfony\AI\Platform\PlatformInterface;
+use Symfony\AI\Platform\ProviderInterface;
 use Webmozart\Assert\Assert;
 
 final class PlatformRecipeExecutor
@@ -16,7 +16,7 @@ final class PlatformRecipeExecutor
     {
     }
 
-    public function execute(PlatformRecipe $recipe): PlatformInterface
+    public function execute(PlatformRecipe $recipe): ProviderInterface
     {
         $arguments = $recipe->values;
 
@@ -28,9 +28,9 @@ final class PlatformRecipeExecutor
         $factory = [$recipe->factory, $recipe->method];
         Assert::isCallable($factory);
 
-        $platform = $factory(...$arguments);
-        Assert::isInstanceOf($platform, PlatformInterface::class);
+        $provider = $factory(...$arguments);
+        Assert::isInstanceOf($provider, ProviderInterface::class);
 
-        return $platform;
+        return $provider;
     }
 }

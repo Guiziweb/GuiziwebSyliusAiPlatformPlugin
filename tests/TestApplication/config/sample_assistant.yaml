@@ -1,0 +1,35 @@
+ai:
+    agent:
+        sample_assistant:
+            platform: tests.sample_platform
+            model: sample-model
+
+guiziweb_sylius_ai_platform:
+    agents: [sample_assistant]
+
+services:
+    tests.sample_platform:
+        class: Symfony\AI\Platform\PlatformInterface
+        factory: ['Tests\Guiziweb\SyliusAiPlatformPlugin\SampleAssistant\SamplePlatformFactory', 'create']
+        arguments: ['@event_dispatcher']
+
+    Tests\Guiziweb\SyliusAiPlatformPlugin\SampleAssistant\:
+        resource: '../src/SampleAssistant/SamplePlatformFactory.php'
+        autowire: false
+
+    Tests\Guiziweb\SyliusAiPlatformPlugin\SampleAssistant\AskSampleAssistantCommand:
+        autowire: true
+        autoconfigure: true
+
+    Tests\Guiziweb\SyliusAiPlatformPlugin\SampleAssistant\SampleAssistantFixture:
+        arguments:
+            - '@guiziweb_sylius_ai_platform.repository.agent'
+            - '@guiziweb_sylius_ai_platform.factory.agent'
+            - '@guiziweb_sylius_ai_platform.manager.agent'
+        tags: ['sylius_fixtures.fixture']
+
+sylius_fixtures:
+    suites:
+        sample_assistant:
+            fixtures:
+                sample_assistant: ~

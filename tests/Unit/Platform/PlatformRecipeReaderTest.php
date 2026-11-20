@@ -57,7 +57,7 @@ final class PlatformRecipeReaderTest extends TestCase
         $recipe = $this->reader->read(self::connection('openai-eu', 'openai', ['api_key' => 'sk-1', 'region' => 'EU']));
 
         self::assertSame(OpenAiFactory::class, $recipe->factory);
-        self::assertSame('createPlatform', $recipe->method);
+        self::assertSame('createProvider', $recipe->method);
         self::assertSame(['apiKey' => 'sk-1', 'name' => 'openai-eu', 'region' => 'EU'], $this->sortedByName($recipe->values));
     }
 

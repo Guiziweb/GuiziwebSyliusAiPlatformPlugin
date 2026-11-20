@@ -28,13 +28,13 @@ Feature: Connecting a provider
         And there should be 2 connections in the registry
 
     @ui
-    Scenario: Being refused a name that another connection already uses
+    Scenario: Being refused a name that another provider already uses
         Given there is a connection named "openai-eu" for the "openai" provider
         When I want to connect a provider of type "mistral"
         And I name it "openai-eu"
         And I set its "api_key" setting to "mistral-key"
         And I add it
-        Then I should be told that "Another connection already uses this code."
+        Then I should be told that "Another provider already uses this code."
         And there should be 1 connection in the registry
 
     @ui

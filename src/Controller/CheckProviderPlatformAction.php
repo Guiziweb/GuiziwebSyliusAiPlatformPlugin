@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Guiziweb\SyliusAiPlatformPlugin\Controller;
 
 use Guiziweb\SyliusAiPlatformPlugin\Entity\Provider\ProviderInterface;
-use Guiziweb\SyliusAiPlatformPlugin\Platform\ProviderPlatformFactory;
+use Guiziweb\SyliusAiPlatformPlugin\Platform\AiProviderFactoryInterface;
 use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,7 +18,7 @@ final class CheckProviderPlatformAction extends AbstractController
      */
     public function __construct(
         private readonly RepositoryInterface $providerRepository,
-        private readonly ProviderPlatformFactory $platformFactory,
+        private readonly AiProviderFactoryInterface $aiProviderFactory,
     ) {
     }
 
@@ -27,7 +27,7 @@ final class CheckProviderPlatformAction extends AbstractController
         $provider = $this->providerRepository->find($id) ?? throw new NotFoundHttpException();
 
         try {
-            $this->platformFactory->create($provider);
+            $this->aiProviderFactory->create($provider);
             $this->addFlash('success', 'guiziweb_sylius_ai_platform.check.platform_built');
         } catch (\Throwable $exception) {
             $this->addFlash('error', $exception->getMessage());

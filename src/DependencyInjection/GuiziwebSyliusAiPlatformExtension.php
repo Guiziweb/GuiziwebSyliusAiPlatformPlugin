@@ -15,9 +15,13 @@ final class GuiziwebSyliusAiPlatformExtension extends AbstractResourceExtension 
 {
     use PrependDoctrineMigrationsTrait;
 
-    /** @psalm-suppress UnusedVariable */
+    public const MANAGED_AGENTS_PARAMETER = 'guiziweb_sylius_ai_platform.managed_agents';
+
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter(self::MANAGED_AGENTS_PARAMETER, array_values(array_unique($config['agents'])));
+
         $loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $loader->load('services.php');

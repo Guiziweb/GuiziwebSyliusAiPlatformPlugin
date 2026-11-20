@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
+use Guiziweb\SyliusAiPlatformPlugin\Platform\AiProviderFactory;
+use Guiziweb\SyliusAiPlatformPlugin\Platform\AiProviderFactoryInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Platform\PlatformRecipeExecutor;
 use Guiziweb\SyliusAiPlatformPlugin\Platform\PlatformRecipeReader;
-use Guiziweb\SyliusAiPlatformPlugin\Platform\ProviderPlatformFactory;
-use Guiziweb\SyliusAiPlatformPlugin\Platform\ProviderPlatformFactoryInterface;
+use Guiziweb\SyliusAiPlatformPlugin\Platform\ProviderRoutingListener;
+use Symfony\AI\Platform\Event\ModelRoutingEvent;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -25,11 +27,18 @@ return static function (ContainerConfigurator $container): void {
             'event_dispatcher' => service('event_dispatcher'),
         ]]);
 
-    $services->set('guiziweb_sylius_ai_platform.platform.factory', ProviderPlatformFactory::class)
+    $services->set('guiziweb_sylius_ai_platform.platform.ai_provider_factory', AiProviderFactory::class)
         ->args([
             service('guiziweb_sylius_ai_platform.platform.recipe_reader'),
             service('guiziweb_sylius_ai_platform.platform.recipe_executor'),
         ]);
 
-    $services->alias(ProviderPlatformFactoryInterface::class, 'guiziweb_sylius_ai_platform.platform.factory');
+    $services->alias(AiProviderFactoryInterface::class, 'guiziweb_sylius_ai_platform.platform.ai_provider_factory');
+
+    $services->set('guiziweb_sylius_ai_platform.platform.provider_routing_listener', ProviderRoutingListener::class)
+        ->args([
+            service('guiziweb_sylius_ai_platform.platform.ai_provider_factory'),
+            service('guiziweb_sylius_ai_platform.repository.provider'),
+        ])
+        ->tag('kernel.event_listener', ['event' => ModelRoutingEvent::class]);
 };
