@@ -74,7 +74,7 @@ class Agent implements AgentInterface
 
     public function setPrompt(?string $prompt): void
     {
-        $this->prompt = $prompt;
+        $this->prompt = self::normalised($prompt);
     }
 
     public function getDefaultPrompt(): ?string
@@ -84,7 +84,7 @@ class Agent implements AgentInterface
 
     public function setDefaultPrompt(?string $defaultPrompt): void
     {
-        $this->defaultPrompt = $defaultPrompt;
+        $this->defaultPrompt = self::normalised($defaultPrompt);
     }
 
     public function getProvider(): ?ProviderInterface
@@ -121,20 +121,20 @@ class Agent implements AgentInterface
 
     public function isCustomized(): bool
     {
-        return self::withoutLineEndingNoise($this->prompt) !== self::withoutLineEndingNoise($this->defaultPrompt);
+        return $this->prompt !== $this->defaultPrompt;
     }
 
     public function refreshDeclaration(string $name, string $defaultPrompt): void
     {
         if (!$this->isCustomized()) {
-            $this->prompt = $defaultPrompt;
+            $this->setPrompt($defaultPrompt);
         }
 
         $this->name = $name;
-        $this->defaultPrompt = $defaultPrompt;
+        $this->setDefaultPrompt($defaultPrompt);
     }
 
-    private static function withoutLineEndingNoise(?string $text): ?string
+    private static function normalised(?string $text): ?string
     {
         return null === $text ? null : trim(str_replace("\r\n", "\n", $text));
     }
