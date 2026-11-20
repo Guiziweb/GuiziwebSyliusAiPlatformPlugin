@@ -16,8 +16,6 @@ use Webmozart\Assert\Assert;
 
 final class AttachAgentRowProcessorPass implements CompilerPassInterface
 {
-    private const BEFORE_THE_BUNDLE_SYSTEM_PROMPT = -10;
-
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasParameter(GuiziwebSyliusAiPlatformExtension::MANAGED_AGENTS_PARAMETER)) {
@@ -45,7 +43,7 @@ final class AttachAgentRowProcessorPass implements CompilerPassInterface
                 (new Definition(AgentRowProcessor::class, [
                     $agentName,
                     new Reference('guiziweb_sylius_ai_platform.agent.row_reader'),
-                ]))->addTag('ai.agent.input_processor', ['agent' => $agentServiceId, 'priority' => self::BEFORE_THE_BUNDLE_SYSTEM_PROMPT]),
+                ]))->addTag('ai.agent.input_processor', ['agent' => $agentServiceId, 'priority' => -10]),
             );
         }
     }
