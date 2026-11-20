@@ -30,13 +30,7 @@ final class AgentGrid implements AgentGridInterface
                     ->setLabel('guiziweb_sylius_ai_platform.grid.agent.model')
                     ->setSortable(true),
                 TwigField::create('customized', '@SyliusAdmin/shared/grid/field/boolean.html.twig')
-                    ->setLabel('guiziweb_sylius_ai_platform.grid.agent.customized')
-                    ->withOptions([
-                        'vars' => [
-                            'th_class' => 'w-1 text-center',
-                            'td_class' => 'text-center',
-                        ],
-                    ]),
+                    ->setLabel('guiziweb_sylius_ai_platform.grid.agent.customized'),
             )
 
             ->withFilters(
