@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 use Guiziweb\SyliusAiPlatformPlugin\Platform\AiProviderFactory;
 use Guiziweb\SyliusAiPlatformPlugin\Platform\AiProviderFactoryInterface;
+use Guiziweb\SyliusAiPlatformPlugin\Platform\ModelNames;
+use Guiziweb\SyliusAiPlatformPlugin\Platform\ModelNamesInterface;
 use Guiziweb\SyliusAiPlatformPlugin\Platform\PlatformRecipeExecutor;
 use Guiziweb\SyliusAiPlatformPlugin\Platform\PlatformRecipeReader;
 use Guiziweb\SyliusAiPlatformPlugin\Platform\ProviderRoutingListener;
@@ -34,6 +36,11 @@ return static function (ContainerConfigurator $container): void {
         ]);
 
     $services->alias(AiProviderFactoryInterface::class, 'guiziweb_sylius_ai_platform.platform.ai_provider_factory');
+
+    $services->set('guiziweb_sylius_ai_platform.platform.model_names', ModelNames::class)
+        ->args([service('guiziweb_sylius_ai_platform.platform.ai_provider_factory'), service('logger')->nullOnInvalid()]);
+
+    $services->alias(ModelNamesInterface::class, 'guiziweb_sylius_ai_platform.platform.model_names');
 
     $services->set('guiziweb_sylius_ai_platform.platform.provider_routing_listener', ProviderRoutingListener::class)
         ->args([

@@ -1,0 +1,12 @@
+{% form_theme form '@SyliusAdmin/shared/form_theme.html.twig' %}
+
+<div class="container-xl" {{ attributes }}>
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'id': form.vars.id}}) }}
+    <div class="card-body">
+        <input type="hidden" name="_method" value="PUT" />
+        {{ form_errors(form) }}
+
+        {% hook 'form' with { form } %}
+    </div>
+    {{ form_end(form, {render_rest: false}) }}
+</div>
