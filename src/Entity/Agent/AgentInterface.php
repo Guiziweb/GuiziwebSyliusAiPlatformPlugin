@@ -39,22 +39,9 @@ interface AgentInterface extends ResourceInterface
 
     public function setModel(?string $model): void;
 
-    /**
-     * @return list<string>
-     */
-    public function getRequiredCapabilities(): array;
-
-    /**
-     * @param list<string> $requiredCapabilities
-     */
-    public function setRequiredCapabilities(array $requiredCapabilities): void;
-
     public function usesOwnProvider(): bool;
 
     public function isCustomized(): bool;
 
-    /**
-     * @param list<string> $requiredCapabilities
-     */
-    public function refreshDeclaration(string $plugin, string $name, string $defaultPrompt, array $requiredCapabilities): void;
+    public function refreshDeclaration(string $plugin, string $name, string $defaultPrompt): void;
 }

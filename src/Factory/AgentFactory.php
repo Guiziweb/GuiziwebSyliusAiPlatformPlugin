@@ -24,11 +24,11 @@ final class AgentFactory implements AgentFactoryInterface
         return $agent;
     }
 
-    public function createDeclared(string $code, string $plugin, string $name, string $defaultPrompt, array $requiredCapabilities = []): AgentInterface
+    public function createDeclared(string $code, string $plugin, string $name, string $defaultPrompt): AgentInterface
     {
         $agent = $this->createNew();
         $agent->setCode($code);
-        $agent->refreshDeclaration($plugin, $name, $defaultPrompt, $requiredCapabilities);
+        $agent->refreshDeclaration($plugin, $name, $defaultPrompt);
 
         return $agent;
     }

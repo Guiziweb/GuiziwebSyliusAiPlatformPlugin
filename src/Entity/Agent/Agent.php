@@ -45,10 +45,6 @@ class Agent implements AgentInterface
     #[ORM\Column(length: 255, nullable: true)]
     protected ?string $model = null;
 
-    /** @var list<string> */
-    #[ORM\Column(name: 'required_capabilities', type: 'json')]
-    protected array $requiredCapabilities = [];
-
     public function getId(): ?int
     {
         return $this->id;
@@ -128,16 +124,6 @@ class Agent implements AgentInterface
         $this->model = $model;
     }
 
-    public function getRequiredCapabilities(): array
-    {
-        return $this->requiredCapabilities;
-    }
-
-    public function setRequiredCapabilities(array $requiredCapabilities): void
-    {
-        $this->requiredCapabilities = $requiredCapabilities;
-    }
-
     public function usesOwnProvider(): bool
     {
         return $this->provider instanceof ProviderInterface &&
@@ -151,7 +137,7 @@ class Agent implements AgentInterface
         return self::withoutLineEndingNoise($this->prompt) !== self::withoutLineEndingNoise($this->defaultPrompt);
     }
 
-    public function refreshDeclaration(string $plugin, string $name, string $defaultPrompt, array $requiredCapabilities): void
+    public function refreshDeclaration(string $plugin, string $name, string $defaultPrompt): void
     {
         if (!$this->isCustomized()) {
             $this->prompt = $defaultPrompt;
@@ -160,7 +146,6 @@ class Agent implements AgentInterface
         $this->plugin = $plugin;
         $this->name = $name;
         $this->defaultPrompt = $defaultPrompt;
-        $this->requiredCapabilities = $requiredCapabilities;
     }
 
     private static function withoutLineEndingNoise(?string $text): ?string
