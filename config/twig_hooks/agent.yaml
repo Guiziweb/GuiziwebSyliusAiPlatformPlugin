@@ -14,6 +14,12 @@ sylius_twig_hooks:
         'sylius_admin.agent.update.content.form.sections.general':
             default:
                 enabled: false
-            fields:
-                template: '@GuiziwebSyliusAiPlatformPlugin/admin/agent/form/fields.html.twig'
+            provider:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/agent/form/sections/general/provider.html.twig'
+                priority: 200
+            model:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/agent/form/sections/general/model.html.twig'
+                priority: 100
+            prompt:
+                template: '@GuiziwebSyliusAiPlatformPlugin/admin/agent/form/sections/general/prompt.html.twig'
                 priority: 0
